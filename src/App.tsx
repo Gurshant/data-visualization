@@ -1,67 +1,123 @@
 import React, { useState, useEffect } from 'react';
 
 import './App.css';
+import GroupedBarChart from './components/GroupedBarChart';
 
 import firebase from './utils/firebase';
 
-interface IState{
-  population:{
-    level_1: string;
-    level_2: string;
-    value: number;
-    year: string | number;
+export interface IState{
+  ageGroups:{
+    age_group: string
+  }[],
+  
+  ethnicityData:{
+    ethnicity: string;
+    data: IState["valueByYear"][]
+  }[],
+
+  valueByYear:{
+      year: number;
+      value: number;
   }[]
 }
 
 function App() {
-  const [data, setData ] = useState<IState["population"]>([]);
+  const [dataByEthnicity, setDataByEthnicity ] = useState<IState["ethnicityData"]>([]);
+  const [ageGroups, setAgeGroups ] = useState<IState["ageGroups"]>([]);
+
 
   const [loading, setLoading] = useState(true);
 
   const dbRef = firebase.database().ref("singapore-population");
-  console.log(dbRef)
 
-  const getSchools=()=>{
-    setLoading(true);
-    let items: IState["population"]=[];
+
+  const getPopulation=()=>{
+    let items: IState["ethnicityData"]=[];
+    let ageGroups: IState["ageGroups"]=[];
 
     dbRef.on("value",(snapshot)=>{
-      if(snapshot.val()){
-        items.push(snapshot.val());
-      }
       console.log(snapshot.val());
-      setData(snapshot.val());
+      Object.keys(snapshot.val()).forEach((key: any)=>{
+        let segment = snapshot.val()[key];
+        // debugger;
+        if(!ageGroups.includes(segment.level_2)){
+          ageGroups.push(segment.level_2);
+        }
 
-    })
+        let inserted= false;
+        items.forEach((item)=>{
+          
+          if(segment.level_1 === item.ethnicity ){
+            let i = ageGroups.indexOf(segment.level_2);
+            if(typeof item.data[i]  === 'undefined' ){
+              item.data.push([{
+                year: segment.year,
+                value: segment.value
+              }]);
+              inserted= true;
+            }else{
+              item.data[i].push({
+                year: segment.year,
+                value: segment.value
+              })
+              inserted=true;
+            }
+          }
+        })
+        if(inserted===false){
+          const ETH = segment.level_1+"";
+          const YEAR = parseInt(segment.year);
+          const VAL = parseInt(segment.value)
 
-    setLoading(false);
+          items.push({ethnicity: ETH, data: [[{ year: YEAR,value: VAL}]]});
+        }
+        
+      });
+
+        console.log(items);
+
+      setDataByEthnicity(items);
+      setAgeGroups(ageGroups);
+      setLoading(false);
+
+    });
+
   }
 
+
   useEffect(()=>{
-    getSchools();
+    getPopulation();
   }, []);
-  
+
   if(loading){
     return <h1>loading... </h1>;
   }
   return (
     <div className="App">
       <h1> Graphs</h1>
-      {data.map((entry, i)=>(
+      <GroupedBarChart rawData={dataByEthnicity} ageGroups = {ageGroups}/>
+      {/* <Histogram  results={dataByGroupName}/> */}
+
+      {/* <Histogram  data={annualData}/> */}
+      {/* {annualData.map((annual, i)=>(
         <div key ={i}>
-          <h2>{entry.level_1}</h2>
-          <h2>{entry.level_2}</h2>
-          <h2>{entry.value}</h2>
-          <h2>{entry.year}/n</h2>
-        
+          <h1>{annual.year}</h1>
+          <br/>
+          <br/>
+          {annual.data.map((entry, j)=>{
+            return <div key={i+" "+j}>
+              <h5>{entry.resident_group}</h5>
+              <h5>{entry.age_group}</h5>
+              <h5>{entry.value}</h5>
+              <br/>
+            </div>
+          })}
         </div>
-      ))}
-    </div>
+
+      ))}*/}
+    </div> 
   );
 }
 
 export default App;
-function items(items: any) {
-  throw new Error('Function not implemented.');
-}
 
