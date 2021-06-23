@@ -16,8 +16,9 @@ export interface IState{
   }[],
 
   valueByYear:{
-      year: number;
-      value: number;
+    ethnicity: string;
+    year: Date;
+    value: number;
   }[]
 }
 
@@ -45,20 +46,22 @@ function App() {
         }
 
         let inserted= false;
-        items.forEach((item)=>{
+        items.forEach((item, i)=>{
           
           if(segment.level_1 === item.ethnicity ){
             let i = ageGroups.indexOf(segment.level_2);
             if(typeof item.data[i]  === 'undefined' ){
               item.data.push([{
-                year: segment.year,
-                value: segment.value
+                year: new Date(segment.year,1,1),
+                value: segment.value,
+                ethnicity: item.ethnicity
               }]);
               inserted= true;
             }else{
               item.data[i].push({
-                year: segment.year,
-                value: segment.value
+                year: new Date(segment.year,1,1),
+                value: segment.value,
+                ethnicity: item.ethnicity
               })
               inserted=true;
             }
@@ -66,22 +69,17 @@ function App() {
         })
         if(inserted===false){
           const ETH = segment.level_1+"";
-          const YEAR = parseInt(segment.year);
+          const YEAR = new Date(segment.year,1,1);
           const VAL = parseInt(segment.value)
-
-          items.push({ethnicity: ETH, data: [[{ year: YEAR,value: VAL}]]});
+          items.push({ethnicity: ETH, data: [[{ year: YEAR,value: VAL, ethnicity: ETH}]]});
         }
         
       });
-
-        console.log(items);
-
+      console.log(items);
       setDataByEthnicity(items);
       setAgeGroups(ageGroups);
       setLoading(false);
-
     });
-
   }
 
 
@@ -96,25 +94,6 @@ function App() {
     <div className="App">
       <h1> Graphs</h1>
       <GroupedBarChart rawData={dataByEthnicity} ageGroups = {ageGroups}/>
-      {/* <Histogram  results={dataByGroupName}/> */}
-
-      {/* <Histogram  data={annualData}/> */}
-      {/* {annualData.map((annual, i)=>(
-        <div key ={i}>
-          <h1>{annual.year}</h1>
-          <br/>
-          <br/>
-          {annual.data.map((entry, j)=>{
-            return <div key={i+" "+j}>
-              <h5>{entry.resident_group}</h5>
-              <h5>{entry.age_group}</h5>
-              <h5>{entry.value}</h5>
-              <br/>
-            </div>
-          })}
-        </div>
-
-      ))}*/}
     </div> 
   );
 }
