@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {VictoryChart,  VictoryStack, VictoryBar, VictoryGroup, VictoryVoronoiContainer, VictoryLegend, VictoryLabel} from 'victory';
+import React from 'react';
+import {VictoryChart,  VictoryStack, VictoryBar, VictoryGroup, VictoryLegend, VictoryLabel, createContainer, VictoryVoronoiContainerProps, VictoryZoomContainerProps} from 'victory';
 import {ColorScalePropType} from "victory-core";
 
 import {IState as IProps} from '../App';
@@ -21,12 +21,16 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
     
     return ethArr;
   }
+
+  const VictoryZoomVoronoiContainer = createContainer<VictoryZoomContainerProps, VictoryVoronoiContainerProps>('zoom', 'voronoi');
+
   return (
     <div style={{paddingLeft: '10px'}}>
-      <VictoryChart   padding={{top: 40, left: 100, bottom: 40}}  domainPadding={30} width={1000} height={400} scale={{x: "linear"}}
-        containerComponent={<VictoryVoronoiContainer
-          labels={({ datum }) => ageGroups[datum._stack]+ " Age Group Population: "+ datum.value}
-        />}
+      <VictoryChart   padding={{top: 40, left: 100, bottom: 40}}  domainPadding={30} width={1000} height={400} scale={{x: "time"}}
+        containerComponent={
+          <VictoryZoomVoronoiContainer
+            labels={({ datum }) => datum.ethnicity + " Population of " + ageGroups[datum._stack - 1] + " olds in " + datum.year.getFullYear() + ": " + datum.value}
+          />}
       >
         <VictoryLabel text="Singapore Ethnicity Population Visual Analysis" x={500} y={10} textAnchor="middle" style={{fontSize: 20, fontWeight: "bold"}}/>
         
@@ -42,7 +46,7 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
           colorScale={stringArr}
           data={legendTitles()} />
 
-        <VictoryGroup offset={15} style={{ data: { width: 10 } }}>
+        <VictoryGroup offset={16} style={{ data: { width: 13 } }}>
 
           {rawData.map((group, i)=>{
             return <VictoryStack colorScale={colorScale[i]} key={i}>
