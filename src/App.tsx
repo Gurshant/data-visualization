@@ -25,12 +25,9 @@ export interface IState{
 function App() {
   const [dataByEthnicity, setDataByEthnicity ] = useState<IState["ethnicityData"]>([]);
   const [ageGroups, setAgeGroups ] = useState<IState["ageGroups"]>([]);
-
-
   const [loading, setLoading] = useState(true);
 
   const dbRef = firebase.database().ref("singapore-population");
-
 
   const getPopulation=()=>{
     let items: IState["ethnicityData"]=[];
