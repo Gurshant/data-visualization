@@ -33,10 +33,8 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
           />}
       >
         <VictoryLabel text="Singapore Ethnicity Population Visual Analysis" x={500} y={10} textAnchor="middle" style={{fontSize: 20, fontWeight: "bold"}}/>
-        
 
         <VictoryLabel text="Year" x={500} y={390} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }}/>
-
 
         <VictoryLabel text="Population Size" x={10} y={200} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }} angle= {270}/>
         <VictoryLegend x={125} y={25}
