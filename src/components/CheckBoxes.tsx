@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
+      justifyContent: 'center',
     },
     formControl: {
       margin: theme.spacing(3),
@@ -28,28 +29,22 @@ interface Props{
 
 const CheckBoxes:React.FC<Props> = ({rawData, handleChange}) => { 
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    gilad: true,
-    jason: false,
-    antoine: false,
-  });
 
-  const { gilad, jason, antoine } = state;
-  const error = [gilad, jason, antoine].filter((v) => v).length >= 4;
+  const error = rawData.filter((v) => v.show).length >= 5;
 
   return (
     <div className={classes.root}>
       <FormControl required error={error} component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Pick up to 4 Groups to display the data for</FormLabel>
+        <FormLabel component="legend">Pick up to 5 population groups to display the data for</FormLabel>
         <FormGroup>
           {rawData.map((group, i)=> <FormControlLabel
-            control={<Checkbox checked={group.show} onChange={()=>{handleChange(group.ethnicity )}} name={group.ethnicity} disabled={i === 0 ? true: false}/>}
+            control={<Checkbox checked={group.show} onChange={()=>{handleChange(group.ethnicity )}} name={group.ethnicity} disabled={i === 0 || (error && !group.show) ? true: false}/>}
             label={group.ethnicity} key={i}
           />
           )}
           
         </FormGroup>
-        <FormHelperText>Note: Cannot select more than 4</FormHelperText>
+        <FormHelperText>Note: Cannot select more than 5</FormHelperText>
       </FormControl>
     </div>
   );
