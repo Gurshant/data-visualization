@@ -1,11 +1,13 @@
-import { group } from 'console';
 import React, { useState, useEffect } from 'react';
 
 import './App.css';
 import CheckBoxes from './components/CheckBoxes';
+import Paper from './components/Paper';
 import GroupedBarChart from './components/GroupedBarChart';
 
 import firebase from './utils/firebase';
+import { CircularProgress, createStyles, LinearProgress, makeStyles, Theme } from '@material-ui/core';
+import { classicNameResolver } from 'typescript';
 
 export interface IState{
   ageGroups: string[],
@@ -24,8 +26,18 @@ export interface IState{
 
   handlePropStateChanges: (ethnicity: string) => void;
 }
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    loading:{
+      display: 'flex',
+      justifyContent: 'center',
+    }
+  }),
+);
 
 function App() {
+  const classes = useStyles();
+
   const [dataByEthnicity, setDataByEthnicity ] = useState<IState["ethnicityData"]>([]);
   const [ageGroups, setAgeGroups ] = useState<IState["ageGroups"]>([]);
   const [loading, setLoading] = useState(true);
@@ -92,12 +104,15 @@ function App() {
   }, []);
 
   if(loading){
-    return <h1>loading... </h1>;
+    return <div className={classes.loading}><
+      CircularProgress size={400}  thickness={1.8} className={classes.loading} color={'primary'}/> 
+    </div>
   }
   return (
     <div className="App">
-      <GroupedBarChart rawData={dataByEthnicity} ageGroups = {ageGroups}/>
-      <CheckBoxes rawData={dataByEthnicity} handleChange={handleChange}/>
+      <Paper rawData={dataByEthnicity} handleChange={handleChange}  ageGroups = {ageGroups}/>
+      {/* <GroupedBarChart rawData={dataByEthnicity} ageGroups = {ageGroups}/> */}
+      {/* <CheckBoxes rawData={dataByEthnicity} handleChange={handleChange}/> */}
     </div> 
   );
 }

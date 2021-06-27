@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import {IState as IProps} from '../App';
+import { Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,6 +19,11 @@ const useStyles = makeStyles((theme: Theme) =>
     formControl: {
       margin: theme.spacing(3),
     },
+    filter:{
+      display: 'flex',
+      justifyContent: 'flex-start',
+      padding: 20
+    }
   }),
 );
 
@@ -34,17 +40,21 @@ const CheckBoxes:React.FC<Props> = ({rawData, handleChange}) => {
 
   return (
     <div className={classes.root}>
-      <FormControl required error={error} component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend">Pick up to 5 population groups to display the data for</FormLabel>
+      <FormControl required  component="fieldset" >
+          <Typography variant="h6" noWrap>
+           Filters
+          </Typography>
+
         <FormGroup>
+
           {rawData.map((group, i)=> <FormControlLabel
-            control={<Checkbox checked={group.show} onChange={()=>{handleChange(group.ethnicity )}} name={group.ethnicity} disabled={i === 0 || (error && !group.show) ? true: false}/>}
+            control={<Checkbox checked={group.show} onChange={()=>{handleChange(group.ethnicity )}} name={group.ethnicity} disabled={i === 0 || (error && !group.show) ? true: false} className={classes.filter} color={'primary'}/>}
             label={group.ethnicity} key={i}
           />
           )}
-          
+
         </FormGroup>
-        <FormHelperText>Note: Cannot select more than 5</FormHelperText>
+        <FormHelperText className={classes.filter}>Note: Cannot select more than 5 filters</FormHelperText>
       </FormControl>
     </div>
   );
