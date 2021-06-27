@@ -17,8 +17,7 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
 
   const legendTitles=()=>{
     let ethArr: { name: string}[] =[];
-    rawData.forEach((group)=>ethArr.push({name: group.ethnicity}));
-    
+    rawData.forEach((group)=>group.show?  ethArr.push({name: group.ethnicity}) : null );
     return ethArr;
   }
 
@@ -26,35 +25,30 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
 
   return (
     <div style={{paddingLeft: '10px'}}>
-      <VictoryChart   padding={{top: 40, left: 100, bottom: 40}}  domainPadding={30} width={1000} height={400} scale={{x: "time"}}
+      <VictoryChart   padding={{top: 100, left: 100, bottom: 50, right: 20}}  domainPadding={30} width={1000} height={550} scale={{x: "time"}} horizontal={false}
         containerComponent={
           <VictoryZoomVoronoiContainer
-            labels={({ datum }) => datum.ethnicity + " Population of " + ageGroups[datum._stack - 1] + " olds in " + datum.year.getFullYear() + ": " + datum.value}
+            labels={({ datum }) => datum.ethnicity + " Population of \n" + ageGroups[datum._stack - 1] + " olds in " + datum.year.getFullYear() + ": \n" + datum.value}
           />}
       >
-        <VictoryLabel text="Singapore Ethnicity Population Visual Analysis" x={500} y={10} textAnchor="middle" style={{fontSize: 20, fontWeight: "bold"}}/>
+        <VictoryLabel text="Visual Analysis: Singapore Population Breakdown" x={500} y={30} textAnchor="middle" style={{fontSize: 20, fontWeight: "bold"}}/>
 
-        <VictoryLabel text="Year" x={500} y={390} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }}/>
+        <VictoryLabel text="Year" x={500} y={530} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }}/>
 
-        <VictoryLabel text="Population Size" x={10} y={200} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }} angle= {270}/>
-        <VictoryLegend x={125} y={25}
+        <VictoryLabel text="Population Size" x={10} y={225} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }} angle= {270}/>
+        <VictoryLegend x={225} y={55}
           orientation="horizontal"
           gutter={20}
           style={{ border: { stroke: "black" } }}
           colorScale={stringArr}
           data={legendTitles()} />
-
-        <VictoryGroup offset={16} style={{ data: { width: 13 } }}>
-
-          {rawData.map((group, i)=>{
-            return <VictoryStack colorScale={colorScale[i]} key={i}>
-              {group.data.map((data, index) => {
-                return <VictoryBar key={index} data={data} x="year" y= "value" />;
-              })}
-            </VictoryStack>
-          })}
-
+        <VictoryGroup offset={14} style={{ data: { width: 12 } }}>
+          {rawData.map((group, i)=> group.show ? <VictoryStack colorScale={colorScale[i]} key={i}>
+              {group.data.map((data, index) => <VictoryBar key={index} data={data} x="year" y= "value" /> )}
+            </VictoryStack> : null
+          )}
         </VictoryGroup>
+    
       </VictoryChart>
     </div>
   );

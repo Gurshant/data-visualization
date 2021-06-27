@@ -1,17 +1,18 @@
+import { group } from 'console';
 import React, { useState, useEffect } from 'react';
 
 import './App.css';
+import CheckBoxes from './components/CheckBoxes';
 import GroupedBarChart from './components/GroupedBarChart';
 
 import firebase from './utils/firebase';
 
 export interface IState{
-  ageGroups:{
-    age_group: string
-  }[],
+  ageGroups: string[],
   
   ethnicityData:{
     ethnicity: string;
+    show: boolean;
     data: IState["valueByYear"][]
   }[],
 
@@ -19,7 +20,9 @@ export interface IState{
     ethnicity: string;
     year: Date;
     value: number;
-  }[]
+  }[],
+
+  handlePropStateChanges: (ethnicity: string) => void;
 }
 
 function App() {
@@ -37,7 +40,6 @@ function App() {
       console.log(snapshot.val());
       Object.keys(snapshot.val()).forEach((key: any)=>{
         let segment = snapshot.val()[key];
-        // debugger;
         if(!ageGroups.includes(segment.level_2)){
           ageGroups.push(segment.level_2);
         }
@@ -68,17 +70,22 @@ function App() {
           const ETH = segment.level_1+"";
           const YEAR = new Date(segment.year,1,1);
           const VAL = parseInt(segment.value)
-          items.push({ethnicity: ETH, data: [[{ year: YEAR,value: VAL, ethnicity: ETH}]]});
+          items.push({ethnicity: ETH, show: false, data: [[{ year: YEAR,value: VAL, ethnicity: ETH}]]});
         }
         
       });
-      console.log(items);
+      items[0].show=true;
       setDataByEthnicity(items);
       setAgeGroups(ageGroups);
       setLoading(false);
     });
   }
 
+  const handleChange=(ethnicity: string)=>{
+    let tmp = [...dataByEthnicity];
+    tmp.map((group)=> group.ethnicity === ethnicity ? group.show = !group.show : null);
+    setDataByEthnicity(tmp);
+  }
 
   useEffect(()=>{
     getPopulation();
@@ -89,8 +96,8 @@ function App() {
   }
   return (
     <div className="App">
-      <h1> Graphs</h1>
       <GroupedBarChart rawData={dataByEthnicity} ageGroups = {ageGroups}/>
+      <CheckBoxes rawData={dataByEthnicity} handleChange={handleChange}/>
     </div> 
   );
 }
