@@ -1,12 +1,12 @@
 import firebase from 'firebase';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCe4pbeXP4-ifgHkWKrWkcR_ExJhbBCKfY",
-    authDomain: "singapore-population-677cd.firebaseapp.com",
-    projectId: "singapore-population-677cd",
-    storageBucket: "singapore-population-677cd.appspot.com",
-    messagingSenderId: "466092570801",
-    appId: "1:466092570801:web:af7cc68784918b0cd8ca90"
+    apiKey: "AIzaSyD_ENUiMdHvQHHQVXac_choleElOmg7Uv8",
+    authDomain: "singapore-population-3dc7b.firebaseapp.com",
+    projectId: "singapore-population-3dc7b",
+    storageBucket: "singapore-population-3dc7b.appspot.com",
+    messagingSenderId: "740592941650",
+    appId: "1:740592941650:web:3b167fd71ac78eb570bd8b"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
