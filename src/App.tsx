@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
 import './App.css';
-import CheckBoxes from './components/CheckBoxes';
 import Paper from './components/Paper';
-import GroupedBarChart from './components/GroupedBarChart';
-
 import firebase from './utils/firebase';
-import { CircularProgress, createStyles, LinearProgress, makeStyles, Theme } from '@material-ui/core';
-import { classicNameResolver } from 'typescript';
+import { CircularProgress, createStyles, CssBaseline, makeStyles, Theme } from '@material-ui/core';
 
 export interface IState{
   ageGroups: string[],
-  
-  ethnicityData:{
-    ethnicity: string;
-    show: boolean;
-    data: IState["valueByYear"][]
-  }[],
 
   valueByYear:{
     ethnicity: string;
     year: Date;
     value: number;
+  }[],
+
+  ethnicityData:{
+    ethnicity: string;
+    show: boolean;
+    data: IState["valueByYear"][]
   }[],
 
   handlePropStateChanges: (ethnicity: string) => void;
@@ -35,13 +30,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function App() {
-  const classes = useStyles();
-
+const App = () => {
   const [dataByEthnicity, setDataByEthnicity ] = useState<IState["ethnicityData"]>([]);
   const [ageGroups, setAgeGroups ] = useState<IState["ageGroups"]>([]);
   const [loading, setLoading] = useState(true);
 
+  const classes = useStyles();
   const dbRef = firebase.database().ref("singapore-population");
 
   const getPopulation=()=>{
@@ -58,7 +52,6 @@ function App() {
 
         let inserted= false;
         items.forEach((item, i)=>{
-          
           if(segment.level_1 === item.ethnicity ){
             let i = ageGroups.indexOf(segment.level_2);
             if(typeof item.data[i]  === 'undefined' ){
@@ -84,7 +77,6 @@ function App() {
           const VAL = parseInt(segment.value)
           items.push({ethnicity: ETH, show: false, data: [[{ year: YEAR,value: VAL, ethnicity: ETH}]]});
         }
-        
       });
       items[0].show=true;
       setDataByEthnicity(items);
@@ -101,6 +93,7 @@ function App() {
 
   useEffect(()=>{
     getPopulation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if(loading){
@@ -110,9 +103,8 @@ function App() {
   }
   return (
     <div className="App">
+      <CssBaseline />
       <Paper rawData={dataByEthnicity} handleChange={handleChange}  ageGroups = {ageGroups}/>
-      {/* <GroupedBarChart rawData={dataByEthnicity} ageGroups = {ageGroups}/> */}
-      {/* <CheckBoxes rawData={dataByEthnicity} handleChange={handleChange}/> */}
     </div> 
   );
 }
