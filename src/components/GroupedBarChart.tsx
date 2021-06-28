@@ -1,7 +1,6 @@
 import React from 'react';
 import {VictoryChart,  VictoryStack, VictoryBar, VictoryGroup, VictoryLegend, VictoryLabel, createContainer, VictoryVoronoiContainerProps, VictoryZoomContainerProps} from 'victory';
 import {ColorScalePropType} from "victory-core";
-
 import {IState as IProps} from '../App';
 
 interface Props{
@@ -11,9 +10,9 @@ interface Props{
 
 const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
   
-  const colorScale: ColorScalePropType[] = ["red", "green", "blue", "cool",  "grayscale", "red", "green", "blue", "cool",  "grayscale"  ];
+  const colorScale: ColorScalePropType[] = ["red", "blue", "green", "cool",  "grayscale", "red", "blue", "green", "cool",  "grayscale"  ];
 
-  const stringArr: string[] = ["red", "green", "blue", "turquoise", "grey", "red", "green", "blue", "turquoise", "grey" ];
+  const stringArr: string[] = ["red", "blue", "green", "turquoise", "grey", "red", "blue", "green", "turquoise", "grey" ];
 
   const legendTitles=()=>{
     let ethArr: { name: string}[] =[];
@@ -31,10 +30,9 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
             labels={({ datum }) => datum.ethnicity + " Population of \n" + ageGroups[datum._stack - 1] + " olds in " + datum.year.getFullYear() + ": \n" + datum.value}
           />}
       >
+
         <VictoryLabel text="Visual Analysis: Singapore Population Breakdown" x={500} y={30} textAnchor="middle" style={{fontSize: 20, fontWeight: "bold"}}/>
-
         <VictoryLabel text="Year" x={500} y={530} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }}/>
-
         <VictoryLabel text="Population Size" x={10} y={225} textAnchor="middle" style={{fontSize: 16, fontWeight: "bold" }} angle= {270}/>
         <VictoryLegend x={175} y={55}
           orientation="horizontal"
@@ -42,13 +40,13 @@ const GroupedBarChart:React.FC<Props> = ({rawData, ageGroups})=> {
           style={{ border: { stroke: "black" } }}
           colorScale={stringArr}
           data={legendTitles()} />
+
         <VictoryGroup offset={15} style={{ data: { width: 12 } }}>
           {rawData.map((group, i)=> group.show ? <VictoryStack colorScale={colorScale[i]} key={i}>
               {group.data.map((data, index) => <VictoryBar key={index} data={data} x="year" y= "value" /> )}
             </VictoryStack> : null
           )}
         </VictoryGroup>
-    
       </VictoryChart>
     </div>
   );
