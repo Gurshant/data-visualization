@@ -1,6 +1,6 @@
 {
-  "name": "visual-analytics-firebase-react",
   "homepage" : "https://gurshant.github.io/data-visualization",
+  "name": "visual-analytics-firebase-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
