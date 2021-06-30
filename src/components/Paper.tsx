@@ -58,7 +58,6 @@ const Paper:React.FC<Props> = ({rawData, handleChange, ageGroups}) => {
       >
         <div className={classes.toolbar} />
         <CheckBoxes rawData={rawData} handleChange={handleChange} />
-        <Divider />
       </Drawer>
     </div>
   );

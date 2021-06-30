@@ -15,10 +15,13 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
     },
-    filter:{
+    form:{
       display: 'flex',
       justifyContent: 'flex-start',
-      padding: 20
+      padding: 20,
+    },
+    helperText:{
+      color: 'red'
     }
   }),
 );
@@ -42,12 +45,12 @@ const CheckBoxes:React.FC<Props> = ({rawData, handleChange}) => {
 
         <FormGroup>
           {rawData.map((group, i)=> <FormControlLabel
-            control={<Checkbox checked={group.show} onChange={()=>{handleChange(group.ethnicity )}} name={group.ethnicity} disabled={i === 0 || (error && !group.show) ? true: false} className={classes.filter} color={'primary'}/>}
+            control={<Checkbox checked={group.show} onChange={()=>{handleChange(group.ethnicity )}} name={group.ethnicity} disabled={i === 0 || (error && !group.show) ? true: false} className={classes.form} color={'primary'}/>}
             label={group.ethnicity} key={i}
           />
           )}
         </FormGroup>
-        <FormHelperText className={classes.filter}>Note: Cannot select more than 5 filters</FormHelperText>
+        {error ? <FormHelperText className={classes.form+' '+classes.helperText}>Note: Cannot select more than 5 filters</FormHelperText> : null}
       </FormControl>
     </div>
   );
