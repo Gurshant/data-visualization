@@ -6,8 +6,8 @@ The website is hosted at the following [link](https://gurshant.github.io/data-vi
 
 ## Languages and Tools:
 
-<img src="https://github.com/Gurshant/data-visualization/tree/master/images/typescript.svg?raw=true" width="100" height="100">
-[<img src="https://github.com/Gurshant/data-visualization/tree/master/images/typescript.svg?raw=true" width="100" height="100">](https://www.typescriptlang.org)
-[<img src="https://github.com/Gurshant/data-visualization/tree/master/images/react.svg?raw=true" width="100" height="100">](https://reactjs.org)
-[<img src="https://github.com/Gurshant/data-visualization/tree/master/images/material-ui.svg?raw=true" width="100" height="100">](https://material-ui.com)
-[<img src="https://github.com/Gurshant/data-visualization/tree/master/images/firebase.svg?raw=true" width="100" height="100">](https://firebase.google.com/products/realtime-database)
+<a href="https://www.typescriptlang.org"><img src="images/typescript.svg?raw=true" align="left" height="48" width="48" ></a>
+[![TypeScript](images/typescript.svg?raw=true)](https://www.typescriptlang.org)
+[![React](images/react.svg?raw=true)](https://reactjs.org)
+[![Material UI](images/material-ui.svg?raw=true)](https://material-ui.com)
+[![FireBase](images/firebase.svg?raw=true)](https://firebase.google.com/products/realtime-database)
