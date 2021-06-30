@@ -22,7 +22,7 @@ The website is hosted at the following [link](https://gurshant.github.io/data-vi
 ## Screenshots
 
 \
-<img src="images/render.gif?raw=true" align="left" height="300" width="500" >
+<img src="images/render.gif?raw=true" align="left" height="400" width="660" >
 \
 &nbsp;
 \
