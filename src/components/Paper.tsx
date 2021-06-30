@@ -1,7 +1,6 @@
 import React from 'react';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Divider from '@material-ui/core/Divider';
 import {IState as IProps} from '../App';
 import GroupedBarChart from './GroupedBarChart';
 import CheckBoxes from './CheckBoxes';
