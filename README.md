@@ -6,8 +6,7 @@ The website is hosted at the following [link](https://gurshant.github.io/data-vi
 
 ## Languages and Tools:
 
-[![JavaScript](images/javascript.svg?raw=true)](https://www.typescriptlang.org)
-[![TypeScript](images/typescript.svg?raw=true))](https://www.typescriptlang.org)
-[![React](images/react.svg?raw=true)](https://reactjs.org)
-[![Material UI](images/material-ui.svg?raw=true))](https://material-ui.com)
-[![FireBase](images/firebase.svg?raw=true))](https://firebase.google.com/products/realtime-database)
+[![TypeScript](images/typescript.svg?raw=true | width=100)](https://www.typescriptlang.org)
+[![React](images/react.svg?raw=true | width=100)](https://reactjs.org)
+[![Material UI](images/material-ui.svg?raw=true | width=100)](https://material-ui.com)
+[![FireBase](images/firebase.svg?raw=true | width=100)](https://firebase.google.com/products/realtime-database)
