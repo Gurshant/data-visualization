@@ -14,6 +14,10 @@ The website is hosted at the following [link](https://gurshant.github.io/data-vi
 &nbsp;
 \
 &nbsp;
+\
+&nbsp;
+\
+&nbsp;
 
 ## Screenshots
 
